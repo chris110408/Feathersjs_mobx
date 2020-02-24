@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, FormContent, Box, Flex } from "grey-vest";
-import _ from "lodash/fp";
 import styled from "styled-components";
-import { reaction, transaction,autorun, extendObservable } from "mobx";
+import { extendObservable } from "mobx";
 import { useObserver } from "mobx-react";
 import RegisterForm from "./components/raw-form";
 import { CommandButton } from "../../components/command-button";
 import FormField from "../../components/form-field";
 import "antd/dist/antd.css";
-import { LoginStoreContext } from "../../store";
 import {
   _Command,
   extraCommand,
@@ -18,9 +16,6 @@ import "antd/dist/antd.css";
 import { useHistory, Link } from "react-router-dom";
 import image from "../../img/login.svg";
 import { requestSignUp } from "../../services/register";
-import LoginForm from "../login/components/raw-form";
-import {FormField as GreyFormField} from "grey-vest";
-import { debounce } from "lodash";
 
 let Command = extraCommand(
   _Command,

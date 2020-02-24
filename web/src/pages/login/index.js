@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Form, FormContent, Box, Flex } from "grey-vest";
 import _ from "lodash/fp";
 import styled from "styled-components";
