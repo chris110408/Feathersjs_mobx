@@ -1,27 +1,42 @@
-import { useLocalStore } from "mobx-react";
-import {toJS} from "mobx"
-import React, { createContext } from "react";
 import { requestAccountLogin } from "../services/login";
+import {observable, action, reaction,flow, decorate} from 'mobx';
 import _ from "lodash/fp";
 
 
-import GlobalStore from './globalStore'
-
-
-const GobalStoreContext = createContext();
-
-const GlobalStoreProvider = ({ children }) => {
-
-    return (
-        <GobalStoreContext.Provider value={GlobalStore}>
-            {children}
-        </GobalStoreContext.Provider>
-    );
-};
+class GlobalStore {
+    currentUser=null
+    history=null
+    token=null
 
 
 
+    //effect
+
+    loginEffect=  flow(function*(payload){
+        try {
+            const res = yield requestAccountLogin(_.assign({"strategy": "local"},payload));
+
+            return { res, store:this };
+        } catch (e) {
+            throw e;
+        }
+    })
+    setCurrentUser=(user) =>{
+        this.currentUser = user
+    }
 
 
-export { GlobalStoreProvider, GobalStoreContext };
+}
 
+decorate(GlobalStore, {
+    currentUser: observable,
+    history: observable,
+    token: observable,
+
+    loginEffect: action,
+    setCurrentUser:action
+});
+
+const globalStore = new GlobalStore()
+
+export default globalStore
