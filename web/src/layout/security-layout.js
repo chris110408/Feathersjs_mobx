@@ -26,7 +26,7 @@ const SecurityLayout = ({ collapsible, collapsed, children }) => {
     history.push("/login");
   };
 
-    return   <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ minHeight: "100vh" }}>
         <SiderMenu collapsible collapsed={collapsed} />
 
         <Layout>
