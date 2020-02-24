@@ -1,13 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { GobalStoreContext } from "../store";
-import { Link, useHistory } from "react-router-dom";
+import {  useHistory } from "react-router-dom";
 import { Layout } from "antd";
-import { ContainerQuery } from "react-container-query";
-import classNames from "classnames";
 import "antd/dist/antd.css";
 import SiderMenu from "../components/sider-menu";
 import GlobalHeader from "../components/header";
-const { Header, Content } = Layout;
+const { Header, Content ,Footer} = Layout;
 
 
 

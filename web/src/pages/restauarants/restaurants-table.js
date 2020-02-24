@@ -23,7 +23,7 @@ const RestaurantsTable = ({ store, deleteRecord, showEditModal ,loading}) => {
             <tbody>
             {_.map(
                 (i) => (
-                    <tr>
+                    <tr key={i._id}>
                         <td>{i.name}</td>
                         <td>{i.address}</td>
                         <td>{i.star}</td>
