@@ -42,6 +42,10 @@ const SecurityLayout = ({ collapsible, collapsed, children }) => {
           >
             {children}
           </Content>
+
+            <Footer style={{ textAlign: "center" }}>
+                Create By Chris For Interview
+            </Footer>
         </Layout>
       </Layout>)
 
