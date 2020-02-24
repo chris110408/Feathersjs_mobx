@@ -7,7 +7,7 @@ import classNames from "classnames";
 import "antd/dist/antd.css";
 import SiderMenu from "../components/sider-menu";
 import GlobalHeader from "../components/header";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 
 
@@ -26,7 +26,7 @@ const SecurityLayout = ({ collapsible, collapsed, children }) => {
     history.push("/login");
   };
 
-      <Layout style={{ minHeight: "100vh" }}>
+   return  ( <Layout style={{ minHeight: "100vh" }}>
         <SiderMenu collapsible collapsed={collapsed} />
 
         <Layout>
@@ -43,7 +43,7 @@ const SecurityLayout = ({ collapsible, collapsed, children }) => {
             {children}
           </Content>
         </Layout>
-      </Layout>
+      </Layout>)
 
 
 

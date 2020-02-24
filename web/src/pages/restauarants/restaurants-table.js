@@ -1,9 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Popconfirm} from "antd";
 import {Table} from "grey-vest"
 import * as _ from "lodash/fp";
-import {useObserver} from "mobx-react-lite";
 import {observer} from "mobx-react";
 const RestaurantsTable = ({ store, deleteRecord, showEditModal ,loading}) => {
 
