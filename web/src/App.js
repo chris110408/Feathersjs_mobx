@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {RestaurantStoreProvider} from './pages/restauarants/local-store'
-
+import SecurityLayout from './layout/security-layout'
 import {GlobalStoreProvider} from './store'
 import { useObserver } from "mobx-react";
 import {
@@ -25,13 +25,14 @@ export default function BasicExample() {
             <Register/>
           </Route>
 
-
+          <SecurityLayout>
             <Route exact path="/">
               <RestaurantStoreProvider>
                 <Restauarants/>
               </RestaurantStoreProvider>
             </Route>
 
+          </SecurityLayout>
 
         </Switch>
       </Router>

@@ -1,13 +1,7 @@
-import { useLocalStore } from "mobx-react";
-import { flow } from "mobx";
+import {  useLocalStore } from 'mobx-react'
+import {flow} from 'mobx';
 import React from "react";
-import {
-  fetchRestaurantsList,
-  createRestaurant,
-  updateRestaurant,
-  deleteRestaurant,
-  searchRestaurantsList
-} from "../../../services/restaurants";
+import {fetchRestaurantsList,createRestaurant,updateRestaurant,deleteRestaurant,searchRestaurantsList} from '../../../services/restaurants'
 import * as _ from "lodash/fp";
 
 
@@ -61,13 +55,10 @@ const RestaurantStoreProvider = ({ children }) => {
     editRestaurantEffect: flow(function*(payload, token) {
       try {
         store.loading = true;
-        console.log(typeof payload.type);
         const res = yield updateRestaurant(
           _.assign({ strategy: "local" }, payload),
           token
         );
-
-        console.log(store.restaurants[0]);
         store.isUpdateModalVisible = false;
         store.loading = false;
         return res;
@@ -107,9 +98,9 @@ const RestaurantStoreProvider = ({ children }) => {
   }));
 
   return (
-    <RestaurantStoreProvider.Provider value={store}>
+    <RestaurantContext.Provider value={store}>
       {children}
-    </RestaurantStoreProvider.Provider>
+    </RestaurantContext.Provider>
   );
 };
 

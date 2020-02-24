@@ -7,11 +7,7 @@ class GlobalStore {
     currentUser=null
     history=null
     token=null
-
-
-
     //effect
-
     loginEffect=  flow(function*(payload){
         try {
             const res = yield requestAccountLogin(_.assign({"strategy": "local"},payload));
