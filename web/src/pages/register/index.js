@@ -4,9 +4,8 @@ import styled from "styled-components";
 import { extendObservable } from "mobx";
 import { useObserver } from "mobx-react";
 import RegisterForm from "./components/raw-form";
-import { CommandButton } from "../../components/command-button";
-import FormField from "../../components/form-field";
-import "antd/dist/antd.css";
+import { CommandButton,FormField } from "../../components";
+
 import {
   _Command,
   extraCommand,

@@ -3,12 +3,9 @@ import { Form, FormContent, Box, Flex } from "grey-vest";
 import _ from "lodash/fp";
 import styled from "styled-components";
 import { reaction, transaction, extendObservable } from "mobx";
-
 import { observer } from "mobx-react";
 import LoginForm from "./components/raw-form";
-import { CommandButton } from "../../components/command-button";
-import FormField from "../../components/form-field";
-
+import { CommandButton,FormField } from "../../components";
 import {
   _Command,
   extraCommand,
@@ -17,7 +14,7 @@ import {
 import "antd/dist/antd.css";
 import { useHistory, Link } from "react-router-dom";
 import image from "../../img/login.svg";
-import  {GobalStoreContext} from "../../store";
+import { GobalStoreContext } from "../../store";
 
 let Command = extraCommand(
   _Command,
@@ -26,25 +23,22 @@ let Command = extraCommand(
 );
 
 const Divform = styled.div`
- 
-
   height: 100vh;
-  width:100vh; 
+  width: 100vh;
   background-image: url(${image});
-  background-size:cover;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center 110px;
   background-size: 100%;
-  margin:auto;
-  position:relative;
-  
-  .container {
-  position: absolute;
-  top: 30%;
-  left: 30%;
-}
+  margin: auto;
+  position: relative;
 
- 
+  .container {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+  }
+
   .form-main {
     background-color: #f6f9fc;
     padding: 10px 50px 50px 50px;
@@ -68,28 +62,24 @@ transaction(() => {
 });
 
 const Login = () => {
-
   let history = useHistory();
   const GlobalStore = useContext(GobalStoreContext);
-  console.log(GlobalStore)
+  console.log(GlobalStore);
   GlobalStore.history = history;
   useEffect(() => {
     LoginForm.fields.email.focus();
   }, []);
 
   const handleSubmit = Command(async () => {
-
-      if(LoginForm.isValid){
-        const fields = await LoginForm.submit();
-        const res = await GlobalStore.loginEffect(fields);
-        return res
-      }else{
-        throw LoginForm.submitError
-      }
-
+    if (LoginForm.isValid) {
+      const fields = await LoginForm.submit();
+      const res = await GlobalStore.loginEffect(fields);
+      return res;
+    } else {
+      throw LoginForm.submitError;
     }
-  );
-  return  (
+  });
+  return (
     <Divform>
       <div className='container'>
         <Form as={Box} className='form-main'>
@@ -102,7 +92,9 @@ const Login = () => {
           </FormContent>
           {/* Without a submit button, the form won't submit */}
           <div className='button-group'>
-            <CommandButton command={handleSubmit} arg={LoginForm.isValid} >Submit</CommandButton>
+            <CommandButton command={handleSubmit} arg={LoginForm.isValid}>
+              Submit
+            </CommandButton>
             <Link className='register' to='/register'>
               Sign Up
             </Link>
