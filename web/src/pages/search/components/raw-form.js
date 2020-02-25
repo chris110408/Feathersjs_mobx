@@ -17,14 +17,14 @@ const rawForm = {
     name: {
       label: "Name",
       component: Input,
-      rules: "required",
+      rules: "",
       value: "",
       props: { placeholder: "Restaurant Name" }
     },
     address: {
       label: "Address",
       component: Input,
-      rules: "required",
+      rules: "",
       value: "",
       props: { placeholder: "Restaurant Address" }
     },
@@ -32,7 +32,7 @@ const rawForm = {
       label: "Stars",
       component: Input,
       props: { placeholder: "input number 1~5" },
-      rules: "required|numeric|min:1|max:5"
+      rules: "numeric|min:1|max:5"
     },
     type: {
       label: "Type",
@@ -40,7 +40,7 @@ const rawForm = {
 
       options: ["Chinese", "Korean", "American", "Franch", "Japanese"],
       value: null,
-      rules: "required"
+      rules: ""
     }
   },
   submit: async (snapshot, form) => {
