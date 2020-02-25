@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { extendObservable } from "mobx";
 import { useObserver } from "mobx-react";
 import RegisterForm from "./components/raw-form";
-import { CommandButton,FormField } from "../../components";
+import { CommandButton, FormField } from "../../components";
 
 import {
   _Command,
@@ -61,7 +61,7 @@ const Register = () => {
 
   const registerEffect = async payload => {
     try {
-      delete payload.password_confirmation
+      delete payload.password_confirmation;
       const res = await requestSignUp(payload);
       return { res, history };
     } catch (e) {
@@ -72,14 +72,11 @@ const Register = () => {
     const form = await RegisterForm.submit();
 
     if (form) {
-
       return await registerEffect(form.getSnapshot());
     } else {
-      throw {name:'form valid error',message:'please fix your mistake'};
+      throw { name: "form valid error", message: "please fix your mistake" };
     }
   });
-
-
 
   return useObserver(() => (
     <Divform>

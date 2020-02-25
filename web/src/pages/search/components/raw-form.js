@@ -48,10 +48,17 @@ const rawForm = {
   }
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 319c27583677089eaceedcbc3ceaa1fdcf03962d
 const SearchRestaurantForm = Form({
   ...rawForm,
   validate: mergeOver([validatorJS(V), functions])
 });
 
+<<<<<<< HEAD
 export {  SearchRestaurantForm };
+=======
+export { SearchRestaurantForm };
+>>>>>>> 319c27583677089eaceedcbc3ceaa1fdcf03962d

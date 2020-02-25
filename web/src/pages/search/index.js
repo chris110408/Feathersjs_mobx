@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { GobalStoreContext } from "../../store";
 import { observer } from "mobx-react";
 import * as _ from "lodash/fp";
-import { useHistory } from "react-router-dom";
 import { Card } from "antd";
 import {
   Form,
@@ -77,18 +76,18 @@ const Search = ({}) => {
   const searchCommand = {
     mainFn: BeforeAndAfterCommand(async () => {
       const form = await SearchRestaurantForm.submit();
-      if(form){
-          const fields = form.getSnapshot()
-          const res = await searchRestaurantsList({ ...fields }, token);
-          return { arg: res.data };
-      }else{
-          throw {}
+      if (form) {
+        const fields = form.getSnapshot();
+        const res = await searchRestaurantsList({ ...fields }, token);
+        return { arg: res.data };
+      } else {
+        throw {};
       }
     }),
     arg: {
       afterFn: async arg => {
-          setSearchModalVisible(false);
-          _.isEmpty(arg)|| setRestaurantData(arg);
+        setSearchModalVisible(false);
+        _.isEmpty(arg) || setRestaurantData(arg);
       }
     }
   };

@@ -6,8 +6,8 @@ import { observer } from "mobx-react";
 const DivRight = styled.div`
   padding: 0 1rem;
   height: 100%;
-   display: flex;
-   justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
   .action {
     cursor: pointer;
     padding: 0 12px;
@@ -41,42 +41,36 @@ const DivRight = styled.div`
   }
 `;
 
+const GlobalHeader = ({ onHeadMenuClick, currentUser }) => {
+  const menu = (
+    <Menu selectedKeys={[]} onClick={onHeadMenuClick}>
+      <Menu.Item>
+        <Icon type='logout' />
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
 
-
-
-const GlobalHeader = ({
-                          onHeadMenuClick,
-                          currentUser
-                      }) => {
-    const menu = (
-        <Menu selectedKeys={[]} onClick={onHeadMenuClick}>
-            <Menu.Item>
-                <Icon type="logout" />
-                Logout
-            </Menu.Item>
-        </Menu>
-    );
-
-
-
-    return (
-        <div>
-
-            <DivRight>
-                {currentUser ? (
-                    <Dropdown overlay={menu}>
-            <span className="action account">
-              <Avatar size="small" className="avatar" src={currentUser.avatar} />
-              <span className="name">Hello {currentUser.first_name}</span>
+  return (
+    <div>
+      <DivRight>
+        {currentUser ? (
+          <Dropdown overlay={menu}>
+            <span className='action account'>
+              <Avatar
+                size='small'
+                className='avatar'
+                src={currentUser.avatar}
+              />
+              <span className='name'>Hello {currentUser.first_name}</span>
             </span>
-                    </Dropdown>
-                ) : (
-                    <Spin size="small" style={{ marginLeft: 8 }} />
-                )}
-            </DivRight>
-        </div>
-    );
+          </Dropdown>
+        ) : (
+          <Spin size='small' style={{ marginLeft: 8 }} />
+        )}
+      </DivRight>
+    </div>
+  );
 };
-
 
 export default observer(GlobalHeader);

@@ -51,6 +51,4 @@ const RestaurantForm = Form({
   ...rawForm,
   validate: mergeOver([validatorJS(V), functions])
 });
-
-
 export { RestaurantForm };

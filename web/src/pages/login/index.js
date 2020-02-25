@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { reaction, transaction, extendObservable } from "mobx";
 import { observer } from "mobx-react";
 import LoginForm from "./components/raw-form";
-import { CommandButton,FormField } from "../../components";
+import { CommandButton, FormField } from "../../components";
 import {
   _Command,
   extraCommand,
@@ -90,7 +90,6 @@ const Login = () => {
             <FormField field={LoginForm.fields.email} width={2} />
             <FormField field={LoginForm.fields.password} width={2} />
           </FormContent>
-          {/* Without a submit button, the form won't submit */}
           <div className='button-group'>
             <CommandButton command={handleSubmit} arg={LoginForm.isValid}>
               Submit
