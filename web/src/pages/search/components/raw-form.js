@@ -48,10 +48,9 @@ const rawForm = {
   }
 };
 
-
 const SearchRestaurantForm = Form({
   ...rawForm,
   validate: mergeOver([validatorJS(V), functions])
 });
 
-export {  SearchRestaurantForm };
+export { SearchRestaurantForm };

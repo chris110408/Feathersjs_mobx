@@ -32,8 +32,12 @@ const SideMenu = ({ collapsible, collapsed }) => {
           }
         >
           <MenuItemGroup key='g1' title='Restaurants'>
-              <Menu.Item key='1'><Link to='/'>CRUD Restaurants List</Link></Menu.Item>
-              <Menu.Item key='2'><Link to='/search'>Search List</Link></Menu.Item>
+            <Menu.Item key='1'>
+              <Link to='/'>CRUD Restaurants List</Link>
+            </Menu.Item>
+            <Menu.Item key='2'>
+              <Link to='/search'>Search List</Link>
+            </Menu.Item>
           </MenuItemGroup>
         </SubMenu>
       </Menu>

@@ -1,10 +1,9 @@
-import { RadioList, Grid } from "grey-vest";
 import React from "react";
 import * as F from "futil";
 import { observer } from "mobx-react";
 import * as _ from "lodash/fp";
 
-let lensEq = _.curryN(2, (value, ...lens) => F.view(...lens) == value);
+let lensEq = _.curryN(2, (value, ...lens) => F.view(...lens) === value);
 export let radioValue = _.curryN(2, (value, ...lens) => ({
   value,
   checked: lensEq(value, ...lens),
@@ -12,7 +11,7 @@ export let radioValue = _.curryN(2, (value, ...lens) => ({
 }));
 
 const RadioListElement = observer(({ field }) => (
-  <div style={{display:'flex',justifyContent:'space-around'}}>
+  <div style={{ display: "flex", justifyContent: "space-around" }}>
     {_.map(
       option => (
         <label>

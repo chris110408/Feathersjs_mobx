@@ -1,9 +1,10 @@
-import {  useLocalStore } from 'mobx-react'
-import {flow} from 'mobx';
+import { useLocalStore } from "mobx-react";
+import { flow } from "mobx";
 import React from "react";
-import {fetchRestaurantsList,createRestaurant,updateRestaurant,deleteRestaurant,searchRestaurantsList} from '../../../services/restaurants'
-
-
+import {
+  fetchRestaurantsList,
+  searchRestaurantsList
+} from "../../../services/restaurants";
 
 const SearchContext = React.createContext();
 
@@ -32,18 +33,16 @@ const SearchStoreProvider = ({ children }) => {
         store.loading = true;
         const res = yield fetchRestaurantsList(token);
         store.loading = false;
-        return res ;
+        return res;
       } catch (e) {
         store.loading = false;
         throw e;
       }
-    }),
+    })
   }));
 
   return (
-    <SearchContext.Provider value={store}>
-      {children}
-    </SearchContext.Provider>
+    <SearchContext.Provider value={store}>{children}</SearchContext.Provider>
   );
 };
 
