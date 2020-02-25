@@ -46,14 +46,21 @@ const redirectSaveTokenCommand =(url,msg="successful redirect")=> (extend = F.de
     });
 
 
-const doAfter =(fn)=>(extend = F.defaultsOn) =>
-    F.aspect({
-        after(result,state,args) {
-            fn(result)
+const beforeAndAfter = extend =>
+    aspect({
+        before(args, state) {
+            args[0].afterFn &&
+            _.isFunction(args[0].beforeFn) &&
+            args[0].beforeFn(args[0].beforeArg ? args[0].beforeArg : null);
         },
-        name: "doAfter"
+        after(result, state, args) {
+            if (args[0].afterFn) {
+                const { afterFn } = args[0];
+                _.isEmpty(result) ? afterFn() : afterFn(result.arg);
+            }
+        },
+        name: "beforeAndAfter"
     });
-
 
 const  _Command = extend =>
     flow(
@@ -70,4 +77,4 @@ const extraCommand = (fn1,fn2,...args) =>  flow(fn1(...args),fn2(...args))
 
 
 
-export {_Command,extraCommand,redirectCommand,redirectSaveTokenCommand,doAfter}
+export {_Command,extraCommand,redirectCommand,redirectSaveTokenCommand,beforeAndAfter}
