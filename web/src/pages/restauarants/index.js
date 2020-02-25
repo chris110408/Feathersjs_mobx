@@ -38,7 +38,7 @@ const Restauarants = ({}) => {
     const [restaurantData, setRestaurantData] = useState(localStore.restaurants);
     const { token } = globalStore;
     const fetchRestaurantsCommand = {
-        main: BeforeAndAfterCommand(async () => {
+        mainFn: BeforeAndAfterCommand(async () => {
             try {
                 const res = await localStore.fetchRestaurantsEffect(token);
                 return { arg: res.data };
@@ -54,8 +54,8 @@ const Restauarants = ({}) => {
     };
 
     useEffect(() => {
-        const { main, arg } = fetchRestaurantsCommand;
-        main(arg);
+        const { mainFn, arg } = fetchRestaurantsCommand;
+        mainFn(arg);
     }, []);
 
     const {
@@ -71,7 +71,7 @@ const Restauarants = ({}) => {
     } = localStore;
 
     const showModalCommand = {
-        main: BeforeAndAfterCommand(async () => {
+        mainFn: BeforeAndAfterCommand(async () => {
             setRestaurant({});
         }),
         arg: {
@@ -83,7 +83,7 @@ const Restauarants = ({}) => {
     };
 
     const submitRecordCommand = {
-        main: BeforeAndAfterCommand(async () => {
+        mainFn: BeforeAndAfterCommand(async () => {
             const form = await RestaurantForm.submit();
             if (form) {
                 const fields = form.getSnapshot();
@@ -101,8 +101,8 @@ const Restauarants = ({}) => {
 
         arg: {
             afterFn: () => {
-                const { main, arg } = fetchRestaurantsCommand;
-                main(arg);
+                const { mainFn, arg } = fetchRestaurantsCommand;
+                mainFn(arg);
                 setRestaurant({});
                 _.each(i => (i.value = null))(RestaurantForm.fields);
             }
@@ -111,7 +111,7 @@ const Restauarants = ({}) => {
 
 
     const showEditModalCommand= {
-        main: BeforeAndAfterCommand(async () => {
+        mainFn: BeforeAndAfterCommand(async () => {
             setUpdateModalVisible(true);
         }),
         arg: {
@@ -129,14 +129,14 @@ const Restauarants = ({}) => {
         }
     }
     const showEditModal = async item => {
-        const {main,arg} = showEditModalCommand
+        const {mainFn,arg} = showEditModalCommand
         const newArg = _.assign(arg,{beforeArg:item})
-        main(newArg)
+        mainFn(newArg)
     };
 
 
     const deleteRecordCommand={
-        main: BeforeAndAfterCommand(async ({id}) => {
+        mainFn: BeforeAndAfterCommand(async ({id}) => {
             try {
                 const res = await localStore.deleteRestaurantEffect(id, token);
                 return { arg: res };
@@ -147,16 +147,16 @@ const Restauarants = ({}) => {
         arg: {
             afterFn: async args => {
                 console.log(args)
-                const { main, arg } = fetchRestaurantsCommand;
-                main(arg);
+                const { mainFn, arg } = fetchRestaurantsCommand;
+                mainFn(arg);
             }
         }
     }
 
     const deleteRecord = async id => {
-        const {main,arg} = deleteRecordCommand
+        const {mainFn,arg} = deleteRecordCommand
         const newArg = _.assign(arg,{id:id})
-        main(newArg)
+        mainFn(newArg)
     };
 
 
@@ -166,7 +166,7 @@ const Restauarants = ({}) => {
 
             <Card style={{ marginRight: "50px" }}     loading={loading}>
                 <CommandButton
-                    command={showModalCommand.main}
+                    command={showModalCommand.mainFn}
                     arg={showModalCommand.arg}
                     style={{ width: "100%", margin: "20px auto" }}
                 >
@@ -187,7 +187,7 @@ const Restauarants = ({}) => {
             >
                 <ModalHeader>{_.isEmpty(restaurant) ? "Create" : "Edit"}</ModalHeader>
                 <ModalContent>
-                    <Form as={Box} className='form-main'>
+                    <Form as={Box} className='form-mainFn'>
                         <Flex justifyContent='center'>
                             <h1 className='form-header'>Restaurant Info</h1>
                         </Flex>
@@ -208,7 +208,7 @@ const Restauarants = ({}) => {
                         cancel
                     </Button>
                     <CommandButton
-                        command={submitRecordCommand.main}
+                        command={submitRecordCommand.mainFn}
                         arg={submitRecordCommand.arg}
                     >
                         Submit
