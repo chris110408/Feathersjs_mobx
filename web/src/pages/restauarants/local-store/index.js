@@ -28,6 +28,7 @@ const RestaurantStoreProvider = ({ children }) => {
       try {
         store.loading = true;
         const res = yield fetchRestaurantsList(token);
+        console.log(res)
         store.loading = false;
         return res ;
       } catch (e) {
