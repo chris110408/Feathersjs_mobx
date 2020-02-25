@@ -90,7 +90,6 @@ const Restauarants = ({}) => {
                 const { type } = fields;
                 fields.type = _.isObjectLike(type) ? type[0] : type;
                 const _id = restaurant._id;
-                console.log(_id);
                 return _.isEmpty(_id)
                     ? await createRestaurantEffect(fields, token)
                     : await editRestaurantEffect({ _id, ...fields }, token);
@@ -146,7 +145,6 @@ const Restauarants = ({}) => {
         }),
         arg: {
             afterFn: async args => {
-                console.log(args)
                 const { mainFn, arg } = fetchRestaurantsCommand;
                 mainFn(arg);
             }
@@ -181,9 +179,6 @@ const Restauarants = ({}) => {
 
             <Modal
                 isOpen={isUpdateModalVisible}
-                onClose={() => {
-                    setUpdateModalVisible(false);
-                }}
             >
                 <ModalHeader>{_.isEmpty(restaurant) ? "Create" : "Edit"}</ModalHeader>
                 <ModalContent>

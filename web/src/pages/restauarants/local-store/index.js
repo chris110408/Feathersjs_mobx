@@ -18,27 +18,12 @@ const RestaurantStoreProvider = ({ children }) => {
     setRestaurant: item => {
       store.restaurant = item;
     },
-    setSearchModalVisible: item => {
-      store.isSearchModalVisible = item;
-    },
     setUpdateModalVisible: item => {
       store.isUpdateModalVisible = item;
     },
     addRestaurant: item => {
       [item].concat(store.restaurants);
     },
-
-    searcgRestaurantsEffect: flow(function*(query, token) {
-      try {
-        store.loading = true;
-        const res = yield searchRestaurantsList(query, token);
-        store.loading = false;
-        return { res, store };
-      } catch (e) {
-        store.loading = false;
-        throw e;
-      }
-    }),
     fetchRestaurantsEffect: flow(function*(token) {
       try {
         store.loading = true;

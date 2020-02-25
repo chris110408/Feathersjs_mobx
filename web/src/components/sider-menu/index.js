@@ -27,12 +27,13 @@ const SideMenu = ({ collapsible, collapsed }) => {
           title={
             <span>
               <Icon type='shop' />
-              <span>Routes</span>
+              <span>Hello</span>
             </span>
           }
         >
           <MenuItemGroup key='g1' title='Restaurants'>
-              <Menu.Item key='1'><Link to='/'>Restaurants List</Link></Menu.Item>
+              <Menu.Item key='1'><Link to='/'>CRUD Restaurants List</Link></Menu.Item>
+              <Menu.Item key='2'><Link to='/search'>Search List</Link></Menu.Item>
           </MenuItemGroup>
         </SubMenu>
       </Menu>
