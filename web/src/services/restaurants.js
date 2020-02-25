@@ -7,15 +7,21 @@ export async function fetchRestaurantsList(token) {
         headers:{
             "Authorization":`Bearer ${token}`
         },
+        // params: {
+        //    name:'i',
+        //     address:'',
+        //     star:4,
+        //     type:'Korean'
+        // }
     });
 }
 
 export async function searchRestaurantsList(query,token) {
     return request(`${backEndServer}/restaurants/`, {
-        params:query,
         headers:{
             "Authorization":`Bearer ${token}`
         },
+        params: query
     });
 }
 
