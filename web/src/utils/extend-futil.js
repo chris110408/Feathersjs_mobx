@@ -47,7 +47,7 @@ const redirectSaveTokenCommand =(url,msg="successful redirect")=> (extend = F.de
 
 
 const beforeAndAfter = extend =>
-    aspect({
+    F.aspect({
         before(args, state) {
             args[0].afterFn &&
             _.isFunction(args[0].beforeFn) &&

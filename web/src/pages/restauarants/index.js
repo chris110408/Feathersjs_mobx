@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { GobalStoreContext } from "../../store";
 import {  observer } from "mobx-react";
 import * as _ from "lodash/fp";
@@ -20,32 +20,42 @@ import { RestaurantContext } from "./local-store";
 import {
     _Command,
     extraCommand,
-    doAfter,
-    redirectSaveTokenCommand
+    beforeAndAfter,
 } from "../../utils/extend-futil";
-import { extendObservable, reaction, transaction } from "mobx";
-import { CommandButton } from "../../components/command-button";
-import FormField from "../../components/form-field";
-
-import {RestaurantForm,SearchRestaurantForm} from "./components/raw-form";
+import { extendObservable } from "mobx";
+import { CommandButton ,FormField} from "../../components";
+import {RestaurantForm} from "./components/raw-form";
 
 import "antd/dist/antd.css";
 import RestaurantsTable from "./restaurants-table";
 
-
-let AfterCommand = fn =>
-    extraCommand(_Command, doAfter(fn), x => y => extendObservable(y, x));
-
+const BeforeAndAfterCommand = extraCommand(_Command, beforeAndAfter, x => y =>
+    extendObservable(y, x)
+);
 const Restauarants = ({}) => {
     const globalStore = useContext(GobalStoreContext);
     const localStore = useContext(RestaurantContext);
-    // let open = userState(false)
-
+    const [restaurantData, setRestaurantData] = useState(localStore.restaurants);
     const { token } = globalStore;
-    let history = useHistory();
+    const fetchRestaurantsCommand = {
+        main: BeforeAndAfterCommand(async () => {
+            try {
+                const res = await localStore.fetchRestaurantsEffect(token);
+                return { arg: res.data };
+            } catch (e) {
+                throw e;
+            }
+        }),
+        arg: {
+            afterFn: async arg => {
+                setRestaurantData(arg);
+            }
+        }
+    };
 
     useEffect(() => {
-        localStore.fetchRestaurantsEffect(token);
+        const { main, arg } = fetchRestaurantsCommand;
+        main(arg);
     }, []);
 
     const {
@@ -60,54 +70,94 @@ const Restauarants = ({}) => {
         createRestaurantEffect
     } = localStore;
 
-    const showModal = AfterCommand(() => {
-        setRestaurant([]);
-        setUpdateModalVisible(true);
-    })(() => {
-        setRestaurant({});
-    });
-
-    const updateValue = AfterCommand(res => {
-        localStore.fetchRestaurantsEffect(token);
-        setRestaurant({});
-        _.each(i=>i.value=null)(RestaurantForm.fields)
-    })(async () => {
-        const form = await RestaurantForm.submit();
-        if (form) {
-            const fields = form.getSnapshot();
-            const { type } = fields;
-            fields.type = _.isObjectLike(type) ? type[0] : type;
-            const _id = restaurant._id;
-            console.log(_id);
-            return _.isEmpty(_id)
-                ? await createRestaurantEffect(fields, token)
-                : await editRestaurantEffect({ _id, ...fields }, token);
-        } else {
-            throw { name: "form valid error", message: "please fix your mistake" };
+    const showModalCommand = {
+        main: BeforeAndAfterCommand(async () => {
+            setRestaurant({});
+        }),
+        arg: {
+            beforeFn: () => {},
+            afterFn: () => {
+                setUpdateModalVisible(true);
+            }
         }
-    });
-    const showEditModal = async item => {
-        setRestaurant(item);
-        await AfterCommand(rawForm => {
+    };
+
+    const submitRecordCommand = {
+        main: BeforeAndAfterCommand(async () => {
+            const form = await RestaurantForm.submit();
+            if (form) {
+                const fields = form.getSnapshot();
+                const { type } = fields;
+                fields.type = _.isObjectLike(type) ? type[0] : type;
+                const _id = restaurant._id;
+                console.log(_id);
+                return _.isEmpty(_id)
+                    ? await createRestaurantEffect(fields, token)
+                    : await editRestaurantEffect({ _id, ...fields }, token);
+            } else {
+                throw { name: "form valid error", message: "please fix your mistake" };
+            }
+        }),
+
+        arg: {
+            afterFn: () => {
+                const { main, arg } = fetchRestaurantsCommand;
+                main(arg);
+                setRestaurant({});
+                _.each(i => (i.value = null))(RestaurantForm.fields);
+            }
+        }
+    };
+
+
+    const showEditModalCommand= {
+        main: BeforeAndAfterCommand(async () => {
             setUpdateModalVisible(true);
-        })(() => {
-            RestaurantForm.fields.name.value = item.name;
-            RestaurantForm.fields.address.value = item.address;
-            RestaurantForm.fields.star.value = item.star;
-            RestaurantForm.fields.type.value = [item.type];
-        })();
+        }),
+        arg: {
+            beforeFn:(item)=>{
+                setRestaurant(item);
+                RestaurantForm.fields.name.value = item.name;
+                RestaurantForm.fields.address.value = item.address;
+                RestaurantForm.fields.star.value = item.star;
+                RestaurantForm.fields.type.value = [item.type];
+            },
+            beforeArg:{},
+            afterFn: () => {
+                setUpdateModalVisible(true);
+            }
+        }
+    }
+    const showEditModal = async item => {
+        const {main,arg} = showEditModalCommand
+        const newArg = _.assign(arg,{beforeArg:item})
+        main(newArg)
     };
 
-    const deleteRecord =async id => {
-        await AfterCommand(() => {
-            localStore.fetchRestaurantsEffect(token);
-        })((id) => {
-            localStore.deleteRestaurantEffect(id,token);
-        })(id);
+
+    const deleteRecordCommand={
+        main: BeforeAndAfterCommand(async ({id}) => {
+            try {
+                const res = await localStore.deleteRestaurantEffect(id, token);
+                return { arg: res };
+            } catch (e) {
+                throw e;
+            }
+        }),
+        arg: {
+            afterFn: async args => {
+                console.log(args)
+                const { main, arg } = fetchRestaurantsCommand;
+                main(arg);
+            }
+        }
+    }
+
+    const deleteRecord = async id => {
+        const {main,arg} = deleteRecordCommand
+        const newArg = _.assign(arg,{id:id})
+        main(newArg)
     };
-
-
-
 
 
     return (
@@ -116,16 +166,14 @@ const Restauarants = ({}) => {
 
             <Card style={{ marginRight: "50px" }}     loading={loading}>
                 <CommandButton
-                    command={showModal}
-                    info={true}
+                    command={showModalCommand.main}
+                    arg={showModalCommand.arg}
                     style={{ width: "100%", margin: "20px auto" }}
                 >
                     Creat Restaurant
                 </CommandButton>
                 <RestaurantsTable
-
-                    // restaurants={_.isEmpty(restaurants) ? null : restaurants}
-                    store={localStore}
+                    restaurantData={restaurantData}
                     deleteRecord={deleteRecord}
                     showEditModal={showEditModal}
                 />
@@ -159,7 +207,12 @@ const Restauarants = ({}) => {
                     >
                         cancel
                     </Button>
-                    <CommandButton command={updateValue}>Submit</CommandButton>
+                    <CommandButton
+                        command={submitRecordCommand.main}
+                        arg={submitRecordCommand.arg}
+                    >
+                        Submit
+                    </CommandButton>
                 </ModalFooter>
             </Modal>
 

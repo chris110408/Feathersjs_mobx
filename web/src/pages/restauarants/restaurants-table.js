@@ -1,9 +1,10 @@
 import React from "react";
+
 import { Popconfirm} from "antd";
 import {Table} from "grey-vest"
 import * as _ from "lodash/fp";
 import {observer} from "mobx-react";
-const RestaurantsTable = ({ store, deleteRecord, showEditModal ,loading}) => {
+const RestaurantsTable = ({ restaurantData, deleteRecord, showEditModal }) => {
 
 
 
@@ -23,7 +24,7 @@ const RestaurantsTable = ({ store, deleteRecord, showEditModal ,loading}) => {
             <tbody>
             {_.map(
                 (i) => (
-                    <tr key={i._id}>
+                    <tr>
                         <td>{i.name}</td>
                         <td>{i.address}</td>
                         <td>{i.star}</td>
@@ -42,7 +43,7 @@ const RestaurantsTable = ({ store, deleteRecord, showEditModal ,loading}) => {
                         </td>
                     </tr>
                 ),
-                store.restaurants
+                restaurantData
             )}
             </tbody>
         </Table>
