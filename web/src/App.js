@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {RestaurantStoreProvider} from './pages/restauarants/local-store'
+import {SearchStoreProvider} from './pages/search/local-store'
 import SecurityLayout from './layout/security-layout'
 import {GlobalStoreProvider} from './store'
 import { useObserver } from "mobx-react";
@@ -12,6 +13,7 @@ import {
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Restauarants from "./pages/restauarants";
+import Search from "./pages/search"
 
 export default function BasicExample() {
   return useObserver(()=> {
@@ -30,6 +32,11 @@ export default function BasicExample() {
               <RestaurantStoreProvider>
                 <Restauarants/>
               </RestaurantStoreProvider>
+            </Route>
+            <Route exact path="/search">
+              <SearchStoreProvider>
+                <Search/>
+              </SearchStoreProvider>
             </Route>
 
           </SecurityLayout>
