@@ -17,6 +17,7 @@ export async function fetchRestaurantsList(token) {
 }
 
 export async function searchRestaurantsList(query,token) {
+    console.log(query)
     return request(`${backEndServer}/restaurants/`, {
         headers:{
             "Authorization":`Bearer ${token}`

@@ -12,7 +12,7 @@ exports.Restaurants = class Restaurants extends Service {
       const nameReg = new RegExp(_.isEmpty(name)?'':name, 'i')
       const addressReg = new RegExp(_.isEmpty(address)?'':address, 'i')
       const starMin =_.isEmpty(star)?1:star
-
+      console.log(params.query)
 
       const result = _.isEmpty(type)?await restaurants.find({$and : [
           {name : {$regex : nameReg}},
