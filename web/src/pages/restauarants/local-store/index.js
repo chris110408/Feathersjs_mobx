@@ -32,7 +32,6 @@ const RestaurantStoreProvider = ({ children }) => {
       try {
         store.loading = true;
         const res = yield searchRestaurantsList(query, token);
-        store.restaurants = res.data;
         store.loading = false;
         return { res, store };
       } catch (e) {
@@ -44,9 +43,8 @@ const RestaurantStoreProvider = ({ children }) => {
       try {
         store.loading = true;
         const res = yield fetchRestaurantsList(token);
-        store.restaurants = res.data;
         store.loading = false;
-        return { res, store };
+        return res ;
       } catch (e) {
         store.loading = false;
         throw e;
@@ -56,8 +54,8 @@ const RestaurantStoreProvider = ({ children }) => {
       try {
         store.loading = true;
         const res = yield updateRestaurant(
-          _.assign({ strategy: "local" }, payload),
-          token
+            _.assign({ strategy: "local" }, payload),
+            token
         );
         store.isUpdateModalVisible = false;
         store.loading = false;
@@ -71,10 +69,9 @@ const RestaurantStoreProvider = ({ children }) => {
       try {
         store.loading = true;
         const res = yield createRestaurant(
-          _.assign({ strategy: "local" }, payload),
-          token
+            _.assign({ strategy: "local" }, payload),
+            token
         );
-        store.addRestaurant(res);
         store.isUpdateModalVisible = false;
         store.loading = false;
         return { res, store };
@@ -87,7 +84,6 @@ const RestaurantStoreProvider = ({ children }) => {
       try {
         store.loading = true;
         const res = yield deleteRestaurant(payload, token);
-        store.restaurants = res.data;
         store.loading = false;
         return { res, store };
       } catch (e) {
