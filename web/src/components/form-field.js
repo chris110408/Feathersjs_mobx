@@ -5,7 +5,7 @@ import { useObserver } from "mobx-react";
 let ErrorAlert = ({ children }) =>
   children && <div style={{ color: "red" }}>{children}</div>;
 
-const _FormField = ({ field, width, label, value }) => {
+const _FormField = ({ field, width, label }) => {
   return useObserver(() => (
     <>
       <FormField
@@ -14,7 +14,6 @@ const _FormField = ({ field, width, label, value }) => {
         label={label ? label : field.label}
         field={field}
         component={field.component}
-        value={value}
       />
       <Flex column as={GridItem} width={width}>
         <ErrorAlert key={field.errors} className='form-error'>

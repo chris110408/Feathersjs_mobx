@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { GobalStoreContext } from "../../store";
 import { observer } from "mobx-react";
 import * as _ from "lodash/fp";
-import { Card } from "antd";
+import { Card, Rate } from "antd";
+
 import {
   Form,
   FormContent,
@@ -21,8 +22,8 @@ import {
   extraCommand,
   beforeAndAfter
 } from "../../utils/extend-futil";
-import { extendObservable } from "mobx";
-import { CommandButton, FormField } from "../../components";
+import { extendObservable,toJS } from "mobx";
+import { CommandButton, FormField, StarFormField } from "../../components";
 import { RestaurantForm } from "./components/raw-form";
 
 import "antd/dist/antd.css";
@@ -117,7 +118,7 @@ const Restauarants = ({}) => {
         RestaurantForm.fields.name.value = item.name;
         RestaurantForm.fields.address.value = item.address;
         RestaurantForm.fields.star.value = item.star;
-        RestaurantForm.fields.type.value = [item.type];
+        RestaurantForm.fields.type.value = item.type;
       },
       beforeArg: {},
       afterFn: () => {
@@ -147,13 +148,11 @@ const Restauarants = ({}) => {
       }
     }
   };
-
   const deleteRecord = async id => {
     const { mainFn, arg } = deleteRecordCommand;
     const newArg = _.assign(arg, { id: id });
     mainFn(newArg);
   };
-
   return (
     <div style={{ backgroundColor: "red !important" }}>
       <Card style={{ marginRight: "50px" }} loading={loading}>
@@ -181,7 +180,7 @@ const Restauarants = ({}) => {
             <FormContent columns={2}>
               <FormField field={RestaurantForm.fields.name} width={2} />
               <FormField field={RestaurantForm.fields.address} width={2} />
-              <FormField field={RestaurantForm.fields.star} width={2} />
+              <StarFormField field={RestaurantForm.fields.star} />
               <FormField field={RestaurantForm.fields.type} width={2} />
             </FormContent>
           </Form>
