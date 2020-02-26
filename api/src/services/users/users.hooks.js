@@ -4,12 +4,14 @@ const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks;
 
+const userDataEdit = require('../../hooks/user-data-edit');
+
 module.exports = {
   before: {
     all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
-    create: [ hashPassword('password') ],
+    create: [hashPassword('password'), userDataEdit()],
     update: [ hashPassword('password'),  authenticate('jwt') ],
     patch: [ hashPassword('password'),  authenticate('jwt') ],
     remove: [ authenticate('jwt') ]
