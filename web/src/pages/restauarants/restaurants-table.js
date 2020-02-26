@@ -19,12 +19,12 @@ const RestaurantsTable = ({ restaurantData, deleteRecord, showEditModal }) => {
       <tbody>
         {_.map(
           i => (
-            <tr>
-              <td>{i.name}</td>
-              <td>{i.address}</td>
-              <td>{i.star}</td>
-              <td>{i.type}</td>
-              <td>
+            <tr key={`${i._id}`}>
+              <td key={`1-${i._id}`}>{i.name}</td>
+              <td key={`2-${i._id}`}>{i.address}</td>
+              <td key={`3-${i._id}`}>{i.star}</td>
+              <td key={`4-${i._id}`}>{i.type}</td>
+              <td key={`5-${i._id}`}>
                 <div style={{ display: "flex" }}>
                   <a
                     style={{ marginRight: 10 }}
