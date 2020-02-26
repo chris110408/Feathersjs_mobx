@@ -79,6 +79,7 @@ const Search = ({}) => {
       const form = await SearchRestaurantForm.submit();
       if (form) {
         const fields = form.getSnapshot();
+        console.log(fields)
         const res = await searchRestaurantsList({ ...fields }, token);
         return { arg: res.data };
       } else {
@@ -86,9 +87,12 @@ const Search = ({}) => {
       }
     }),
     arg: {
-      afterFn: async arg => {
+      afterFn: async _arg => {
         setSearchModalVisible(false);
-        _.isEmpty(arg) || setRestaurantData(arg);
+        const { mainFn, arg } = fetchRestaurantsCommand
+        console.log(_arg)
+
+        _.isEmpty(arg) ? mainFn(arg):setRestaurantData(_arg);
       }
     }
   };
