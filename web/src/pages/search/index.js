@@ -23,7 +23,7 @@ import {
   beforeAndAfter
 } from "../../utils/extend-futil";
 import { extendObservable } from "mobx";
-import { CommandButton, FormField } from "../../components";
+import { CommandButton, FormField,NewCommandButton } from "../../components";
 import { SearchRestaurantForm } from "./components/raw-form";
 
 import "antd/dist/antd.css";
@@ -101,13 +101,12 @@ const Search = ({}) => {
   return (
     <div style={{ backgroundColor: "red !important" }}>
       <Card style={{ marginRight: "50px" }} loading={loading}>
-        <CommandButton
-          command={showModalCommand.mainFn}
-          arg={showModalCommand.arg}
+        <NewCommandButton
+          command={showModalCommand}
           style={{ width: "100%", margin: "20px auto" }}
         >
           Search Restaurant
-        </CommandButton>
+        </NewCommandButton>
         <RestaurantsTable restaurantData={restaurantData} />
       </Card>
 
@@ -141,9 +140,9 @@ const Search = ({}) => {
           >
             cancel
           </Button>
-          <CommandButton command={searchCommand.mainFn} arg={searchCommand.arg}>
+          <NewCommandButton command={searchCommand}>
             Search
-          </CommandButton>
+          </NewCommandButton>
         </ModalFooter>
       </Modal>
     </div>
