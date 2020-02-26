@@ -28,7 +28,6 @@ import { SearchRestaurantForm } from "./components/raw-form";
 
 import "antd/dist/antd.css";
 import RestaurantsTable from "./restaurants-table";
-import { RestaurantForm } from "../restauarants/components/raw-form";
 import { searchRestaurantsList } from "../../services/restaurants";
 
 const BeforeAndAfterCommand = extraCommand(_Command, beforeAndAfter, x => y =>
@@ -90,9 +89,11 @@ const Search = ({}) => {
       afterFn: async _arg => {
         setSearchModalVisible(false);
         const { mainFn, arg } = fetchRestaurantsCommand
-        console.log(_arg)
-
         _.isEmpty(arg) ? mainFn(arg):setRestaurantData(_arg);
+        SearchRestaurantForm.fields.name.value = '';
+        SearchRestaurantForm.fields.address.value = '';
+        SearchRestaurantForm.fields.star.value = '';
+        SearchRestaurantForm.fields.type.value = '';
       }
     }
   };
@@ -132,6 +133,10 @@ const Search = ({}) => {
           <Button
             onClick={() => {
               setSearchModalVisible(false);
+              SearchRestaurantForm.fields.name.value = '';
+              SearchRestaurantForm.fields.address.value = '';
+              SearchRestaurantForm.fields.star.value = '';
+              SearchRestaurantForm.fields.type.value = '';
             }}
           >
             cancel
