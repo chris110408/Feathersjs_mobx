@@ -117,7 +117,7 @@ const Restauarants = ({}) => {
         RestaurantForm.fields.name.value = item.name;
         RestaurantForm.fields.address.value = item.address;
         RestaurantForm.fields.star.value = item.star;
-        RestaurantForm.fields.type.value = [item.type];
+        RestaurantForm.fields.type.value = item.type;
       },
       beforeArg: {},
       afterFn: () => {
